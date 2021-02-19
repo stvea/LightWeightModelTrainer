@@ -22,15 +22,6 @@ def representative_dataset():
 
 def convert_model():
 
-    model = ShufflenetV2(30, False)
-
-    loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-    optimizer = tf.keras.optimizers.Adam()
-    model.compile(optimizer=optimizer, loss=loss_object, metrics=['accuracy'])
-    # model.build(input_shape=(1,224,224,3))
-
-    latest = tf.train.latest_checkpoint("training_checkpoints/")
-    model.load_weights(latest).expect_partial()
     # Load your pre-trained model
     # model.load_weights("path/to/your/saved/model")
 
@@ -41,7 +32,7 @@ def convert_model():
     # "experimental_new_converter" is enabled by default in TensorFlow 2.2+. However, using the new MLIR TFLite
     # converter might result in corrupted / incorrect TFLite models for some particular architectures. Therefore, the
     # best option is to perform the conversion using both the new and old converter and check the results in each case:
-    converter.experimental_new_converter = True
+    converter.experimental_new_converter = False
     converter.experimental_new_quantizer = True
 
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
