@@ -5,6 +5,7 @@ import tensorflow as tf
 
 from data_reader import img_preprocess
 
+image_size = 384
 
 def representative_dataset():
     data_path = "/data2/competition/classification/represent_data/"
@@ -12,11 +13,11 @@ def representative_dataset():
         for imgname in filenames:
             image = tf.io.read_file(os.path.join(data_path, imgname))
             image = tf.compat.v1.image.decode_jpeg(image)
-            image = img_preprocess(image, 384, "per", False)
+            image = img_preprocess(image, image_size, "per", False)
             image = np.array(image)
             print(os.path.join(data_path, imgname))
 
-            image = np.reshape(image, (1, 384, 384, 3))
+            image = np.reshape(image, (1, image_size, image_size, 3))
         yield [image.astype(np.float32)]
 
 
