@@ -2,12 +2,12 @@ import tensorflow as tf
 
 
 class NetConfig:
-    IMAGE_SIZE = 224
+    IMAGE_SIZE = 384
     IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-    GPU = "7"
-    LABEL_SMOOTHING = 0.1
-    BATCH_SIZE = 64
+    GPU = "5"
+    LABEL_SMOOTHING = 0.05
+    BATCH_SIZE = 32
     EPOCHS_TRAIN = 5
     EPOCHS_FINE = 300
     FINE_TUNE_START = 25
@@ -34,3 +34,4 @@ class NetConfig:
             image = tf.image.random_contrast(image, lower=0.8, upper=1)
 
         return image
+#

@@ -18,10 +18,11 @@ from shutil import copyfile
 
 args = get_train_args()
 
-model_name = args.model_name
+model_name = "mb2"
 train_name = \
     "t" + str(time.strftime("%Y_%m_%d_%H_%M", time.localtime())) + \
     "_" + model_name + "_" + str(NetConfig.IMAGE_SIZE)
+
 os.environ['CUDA_VISIBLE_DEVICES'] = NetConfig.GPU
 
 train_generator = get_train_data()
@@ -57,7 +58,7 @@ with strategy.scope():
                                 save_best_only=1,
                                 verbose=1)
                         ])
-    draw_train_history(history)
+    # draw_train_history(history)
 
     base_model.trainable = True
     for layer in base_model.layers[:NetConfig.FINE_TUNE_START]:

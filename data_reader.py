@@ -16,8 +16,8 @@ parser = argparse.ArgumentParser(description="Load and augment the dataset.")
 # parser.add_argument('-tp', '--train_path', default='/data/competition/classification/train_2_8', type=str)
 parser.add_argument('-tp', '--train_path', default='/data2/competition/classification/train_2_18', type=str)
 # parser.add_argument('-tp', '--train_path', default='./data/train_new', type=str)
-parser.add_argument('-vp', '--val_path', default='/data2/competition/classification/val_20', type=str)
-shuffle_size = 21154
+parser.add_argument('-vp', '--val_path', default='/data2/competition/classification/val_true', type=str)
+shuffle_size = 21684
 args = parser.parse_args()
 train_data_path = args.train_path
 val_data_path = args.val_path
@@ -30,12 +30,12 @@ def random_rot(image):
 
 
 def resize_and_rescale(image, label="", train=True):
-    image = NetConfig.img_preprocess(image, NetConfig.IMAGE_SIZE, NetConfig.NORMALIZATION, train)
+    image = img_preprocess(image, NetConfig.IMAGE_SIZE, NetConfig.NORMALIZATION, train)
     return image, label
 
 
 def resize_and_rescale_val(image, label="", train=False):
-    image = NetConfig.img_preprocess(image, NetConfig.IMAGE_SIZE, NetConfig.NORMALIZATION, train)
+    image = img_preprocess(image, NetConfig.IMAGE_SIZE, NetConfig.NORMALIZATION, train)
     return image, label
 
 
@@ -127,25 +127,6 @@ def get_train_data():
             .map(augment, num_parallel_calls=AUTOTUNE)
             .batch(NetConfig.BATCH_SIZE)
             # .prefetch(AUTOTUNE)
-    )
-    return train_ds
-
-
-def get_represent_data():
-    train_img_paths, train_labels = get_imgs_labels(train_data_path)
-    path_ds = tf.data.Dataset.from_tensor_slices(train_img_paths)
-
-    img_ds = path_ds.map(load_image, num_parallel_calls=AUTOTUNE)
-
-    dataset = img_ds
-    # Create counter and zip together with train dataset
-    counter = tf.data.experimental.Counter()
-    train_ds = tf.data.Dataset.zip((dataset, (counter, counter)))  # (counter,counter) is seed
-    train_ds = (
-        train_ds
-            .shuffle(buffer_size=shuffle_size)
-            .batch(NetConfig.BATCH_SIZE)
-            .prefetch(AUTOTUNE)
     )
     return train_ds
 

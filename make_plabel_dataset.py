@@ -5,11 +5,11 @@ from shutil import copyfile
 
 from data_reader import load_image, img_preprocess
 from utills.base import make_train_dataset_dir, get_FileCreateTime
-os.environ['CUDA_VISIBLE_DEVICES'] = "5"
+os.environ['CUDA_VISIBLE_DEVICES'] = "4"
 
 dataset_save_path = "/home/share/data/extra_data/"
-val_path = '/home/share/data/imagenet_subset/test/'
-model_file = "/home/gechao/code/shufflenetv2-tf/save/t2021_02_09_15_58_mb2_224_t5_f130_nper_b128_fs25_ls/t2021_02_09_15_58_mb2_224_t5_f130_nper_b128_fs25_ls.tflite"
+val_path = 'data/val_official/'
+model_file = "/home/gechao/code/shufflenetv2-tf/save/t2021_02_20_11_37_mb2_224/model.tflite"
 CLASSES = make_train_dataset_dir(dataset_save_path)
 
 print("Model Name:", model_file, "Create Time:", get_FileCreateTime(model_file))

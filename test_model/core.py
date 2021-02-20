@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import time
 from shutil import copyfile
 
 import numpy as np
@@ -20,7 +21,7 @@ def test_tflite(model_file,
                 save_plabel=False,
                 show_wrong=False,
                 save_wrong_img=False):
-    val_path = '/data2/competition/classification/val_20'
+    val_path = '/data2/competition/classification/val_true'
 
     CLASSES = ['Portrait', 'Group Portrait', 'Kids / Infants', 'Dog', 'Cat', 'Macro / Close-up', 'Food / Gourmet',
                'Beach', 'Mountains', 'Waterfall', 'Snow', 'Landscape', 'Underwater', 'Architecture', 'Sunrise / Sunset',
@@ -40,6 +41,7 @@ def test_tflite(model_file,
     output_details = interpreter.get_output_details()[0]
 
     total = 0
+    total_time = 0
     top1_correct = 0
     top3_correct = 0
 
@@ -47,11 +49,14 @@ def test_tflite(model_file,
         for dirname in dirnames:
             for path, _, imgnames in os.walk(os.path.join(dirpath, dirname)):
                 for imgname in imgnames:
+                    total += 1
+
                     label = int(dirname.split('_')[0]) - 1
                     image = load_image(os.path.join(path, imgname))
                     image = img_preprocess(image, image_size, "per", False)
-                    test_image = image
 
+                    test_image = image
+                    start_time = time.time()
                     if input_details['dtype'] == np.uint8:
                         input_scale, input_zero_point = input_details["quantization"]
                         test_image = test_image / input_scale + input_zero_point
@@ -60,10 +65,11 @@ def test_tflite(model_file,
                     interpreter.set_tensor(input_details["index"], test_image)
                     interpreter.invoke()
                     output = interpreter.get_tensor(output_details["index"])[0]
+                    total_time += time.time()-start_time
+                    print("Time:",total_time/total)
                     results = np.squeeze(output)
                     prediction_top_3 = results.argsort()[-3:][::-1]
 
-                    total += 1
                     if prediction_top_3[0] == label:
                         top1_correct += 1
                     if label in prediction_top_3:
