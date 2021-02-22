@@ -3,6 +3,7 @@ import tensorflow as tf
 from data_reader import get_train_data, get_val_data
 from utills.args import get_train_checkpoint_args
 
+
 os.environ['CUDA_VISIBLE_DEVICES'] = "6"
 train_name = "t2021_02_20_11_15_mb2_384"
 NetConfig = None

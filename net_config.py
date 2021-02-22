@@ -2,15 +2,15 @@ import tensorflow as tf
 
 
 class NetConfig:
-    IMAGE_SIZE = 384
+    IMAGE_SIZE = 224
     IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-    GPU = "5"
-    LABEL_SMOOTHING = 0.05
-    BATCH_SIZE = 32
-    EPOCHS_TRAIN = 5
+    GPU = "1"
+    LABEL_SMOOTHING = 0.1
+    BATCH_SIZE = 64
+    EPOCHS_TRAIN = 0
     EPOCHS_FINE = 300
-    FINE_TUNE_START = 25
+    FINE_TUNE_START = 10
     NORMALIZATION = "per"
 
     @staticmethod

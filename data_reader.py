@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser(description="Load and augment the dataset.")
 parser.add_argument('-tp', '--train_path', default='/data2/competition/classification/train_2_18', type=str)
 # parser.add_argument('-tp', '--train_path', default='./data/train_new', type=str)
 parser.add_argument('-vp', '--val_path', default='/data2/competition/classification/val_true', type=str)
-shuffle_size = 21684
+shuffle_size = 22019
 args = parser.parse_args()
 train_data_path = args.train_path
 val_data_path = args.val_path

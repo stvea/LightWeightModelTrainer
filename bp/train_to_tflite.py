@@ -33,7 +33,7 @@ print(train_name)
 mkdir(save_path)
 mkdir(checkpoint_path)
 
-copyfile("net_config.py", os.path.join(save_path, "net_config.py"))
+copyfile("../net_config.py", os.path.join(save_path, "net_config.py"))
 
 '''Get Data'''
 train_generator = get_train_data()

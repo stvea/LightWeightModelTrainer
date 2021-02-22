@@ -5,6 +5,9 @@ from shutil import copyfile
 
 from data_reader import load_image, img_preprocess
 from utills.base import make_train_dataset_dir, get_FileCreateTime
+
+'''To generate Semi-Supervised Learning dataset'''
+
 os.environ['CUDA_VISIBLE_DEVICES'] = "4"
 
 dataset_save_path = "/home/share/data/extra_data/"
